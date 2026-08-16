@@ -1,0 +1,16 @@
+node_modules
+.npm-cache
+.next
+# Local environment files and credentials. Keep only the safe template tracked.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+.dev-server*.log
+*.tsbuildinfo

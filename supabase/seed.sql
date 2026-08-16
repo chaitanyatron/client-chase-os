@@ -1,0 +1,4 @@
+-- Optional local-development seed. Run only after creating a test user in Supabase Auth.
+-- Replace USER_UUID with the UUID of that user, then execute in the SQL Editor.
+-- insert into public.clients (owner_id, name, company_name, email, phone)
+-- values ('USER_UUID', 'Example Industries', 'Example Industries', 'accounts@example.com', '+91 98765 43210');

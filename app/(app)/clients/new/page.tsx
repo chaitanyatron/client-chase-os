@@ -1,0 +1,7 @@
+import Link from "next/link";
+import { addClient } from "@/app/actions";
+
+export default async function NewClientPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
+  return <div className="mx-auto max-w-2xl"><Link href="/clients" className="text-sm font-medium text-slate-600 hover:text-slate-950">← Back to clients</Link><h1 className="mt-5 text-3xl font-bold tracking-tight">Add a client</h1><p className="mt-2 text-slate-600">Add their details now. You can create their document list next.</p><form action={addClient} className="card mt-8 space-y-5 p-6">{error && <p className="rounded-lg bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}<label className="label">Company or client name <span className="text-rose-600">*</span><input name="name" className="field" placeholder="e.g. ABC Pvt Ltd" required /></label><label className="label">Email <span className="font-normal text-slate-400">(optional)</span><input name="email" type="email" className="field" placeholder="finance@company.com" /></label><label className="label">Phone <span className="font-normal text-slate-400">(optional)</span><input name="phone" type="tel" className="field" placeholder="+91 98765 43210" /></label><div className="flex justify-end gap-3 border-t pt-5"><Link className="button-secondary" href="/clients">Cancel</Link><button className="button-primary">Save client</button></div></form></div>;
+}

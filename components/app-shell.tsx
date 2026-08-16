@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { logout } from "@/app/actions";
+
+export function AppShell({ children, name }: { children: React.ReactNode; name?: string | null }) {
+  return <div className="min-h-screen"><header className="border-b bg-white"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4"><Link href="/dashboard" className="text-lg font-bold tracking-tight text-slate-900">Client Chase <span className="text-indigo-600">OS</span></Link><div className="flex items-center gap-4"><span className="hidden text-sm text-slate-500 sm:inline">{name || "Your firm"}</span><form action={logout}><button className="text-sm font-medium text-slate-600 hover:text-slate-950">Log out</button></form></div></div></header><div className="mx-auto flex max-w-7xl gap-8 px-5 py-8"><aside className="hidden w-40 shrink-0 md:block"><nav className="space-y-1 text-sm font-medium"><Link className="block rounded-lg px-3 py-2 text-slate-600 hover:bg-white hover:text-slate-950" href="/dashboard">Dashboard</Link><Link className="block rounded-lg px-3 py-2 text-slate-600 hover:bg-white hover:text-slate-950" href="/clients">Clients</Link></nav></aside><main className="min-w-0 flex-1">{children}</main></div></div>;
+}

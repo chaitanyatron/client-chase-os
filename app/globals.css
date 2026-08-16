@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply border-slate-200; }
+  body { @apply bg-slate-50 text-slate-900 antialiased; }
+  input, select { @apply outline-none ring-0; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border bg-white shadow-sm; }
+  .button { @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50; }
+  .button-primary { @apply button bg-indigo-600 text-white hover:bg-indigo-700; }
+  .button-secondary { @apply button border border-slate-300 bg-white text-slate-700 hover:bg-slate-50; }
+  .field { @apply mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100; }
+  .label { @apply block text-sm font-medium text-slate-700; }
+}

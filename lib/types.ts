@@ -1,4 +1,17 @@
 export type RequestStatus = "pending" | "received" | "overdue";
+
+export const documentOptions = [
+  "Bank Statement",
+  "GST Returns",
+  "Sales Invoices",
+  "Purchase Invoices",
+  "TDS Certificate",
+  "Payroll Data",
+  "Investment Proof",
+  "Bank Confirmation",
+  "Debtor/Creditor Confirmation",
+  "Other",
+] as const;
 export interface Client { id: string; owner_id: string; name: string; email: string | null; phone: string | null; company_name: string | null; created_at: string; }
 export interface DocumentRequest { id: string; client_id: string; document_name: string; status: RequestStatus; requested_at: string; due_date: string | null; received_at: string | null; }
 

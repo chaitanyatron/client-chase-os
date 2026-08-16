@@ -44,11 +44,23 @@ export async function addClient(formData: FormData) {
 export async function addDocumentRequests(formData: FormData) {
   const clientId = text(formData, "client_id"); const dueDate = text(formData, "due_date") || null;
   const documentNames = formData.getAll("document_names").map(String).map(value => value.trim()).filter(Boolean);
-  if (!clientId || !documentNames.length) failure(`/clients/${clientId}`, "Select at least one document.");
+  if (!clientId || !documentNames.length) failure(`/clients/${clientId}?request=1`, "Select at least one document.");
   const supabase = await createClient();
-  const { error } = await supabase.from("document_requests").insert(documentNames.map(document_name => ({ client_id: clientId, document_name, due_date: dueDate, status: "pending" })));
-  if (error) failure(`/clients/${clientId}`, "Could not add document requests. Please try again.");
+
+  // Prevent duplicate pending/overdue requests for the same client + document.
+  const { data: existingData } = await supabase.from("document_requests").select("document_name, status").eq("client_id", clientId).neq("status", "received");
+  const existingNames = new Set((existingData || []).map(row => row.document_name));
+  const newNames = documentNames.filter(name => !existingNames.has(name));
+  const skipped = documentNames.length - newNames.length;
+
+  if (!newNames.length) failure(`/clients/${clientId}?request=1`, "Those documents already have an open request.");
+
+  const { error } = await supabase.from("document_requests").insert(newNames.map(document_name => ({ client_id: clientId, document_name, due_date: dueDate, status: "pending" })));
+  if (error) failure(`/clients/${clientId}?request=1`, "Could not add document requests. Please try again.");
+
   revalidatePath(`/clients/${clientId}`); revalidatePath("/dashboard"); revalidatePath("/clients");
+  const message = skipped > 0 ? `Added ${newNames.length} request(s). Skipped ${skipped} duplicate(s).` : `Added ${newNames.length} document request(s).`;
+  redirect(`/clients/${clientId}?success=${encodeURIComponent(message)}`);
 }
 
 export async function updateDocumentStatus(formData: FormData) {
